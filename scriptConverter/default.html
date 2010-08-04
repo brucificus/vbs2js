@@ -1,0 +1,120 @@
+
+<html>
+<head>
+<title>The ScriptConverter Tool</title>
+<link rel="stylesheet" type="text/css" href="../code_articles.css" />
+<link rel="Shortcut Icon" href="img/vbs2js.ico" />
+</head>
+
+<body>
+
+<h1>ScriptConverter</h1>
+<h4 class="subtitle">
+Convert VBScript to Javascript, <strike>in a fraction of the time!</strike>, kinda.
+</h4>
+
+<p><br /><a href="demo.html" target="_blank">Try ScriptConverter</a></p>
+
+<div style="background:#faa; border:1px solid black; padding:0.5ex 1em;">
+
+	<h4>RIP 2010-08-04 - two comments:</h4>
+	<ul>
+		<li>I never anticipated this would get so popular.</li>
+		<li>You probably don't want to bother with it.</li>
+	</ul>
+	<br />
+	
+	<p>ScriptConverter started as a shortcut for work I often did in 2002-2004.&nbsp;  
+	I was surprised when a few folks expressed interest in making it a community project, which was exciting, but it didn't go far.&nbsp;  
+	As a result, it looked exciting(!), but is little more than a prototype.&nbsp;
+	One roadblock is that VBScript has many convenience functions built-in (e.g. for <a href="../jsDate/jsDate.html" title="jsDate - VBScript and VB6 native Date functions emulated in Javascript">Dates</a>), which <a href="http://blog.throbs.net/2005/06/13/Javascript+Vs+VBScript++Pros+And+Cons+Compared.aspx" title="Javascript -vs- VBScript, pros and cons compared">Javascript does not</a>.&nbsp;
+	</p>
+	
+	<p>
+	I'm glad to know that many have found and benefitted from it.&nbsp;
+	To those it's helped, you're welcome!&nbsp; 
+	</p>
+	<p>
+	I think a lot of script beginners have found it too, and were disappointed when their copy/pasted samples didn't run as-is.&nbsp;
+	To those it's frustrated, my apologies.&nbsp;
+	Sadly, VBScript is pretty much dead and gone (thanks to web standards, Classic ASP &rarr; ASP.net, and WSH &rarr; Powershell), and these days what you want is probably already written better in Javascript somewhere.&nbsp; 
+	</p>
+
+</div>
+
+<h3>What it is:</h3>
+<p>ScriptConverter performs a basic translation of VBScript code into Javascript code.&nbsp; 
+It uses Regular Expressions in Javascript to detect the language constructs and map them to the equivalent in Javascript.
+</p>
+
+<h3>Why:</h3>
+<p>Have you ever inherited a web-project coded with client-side VBScript which had to be upgraded to work in other browsers?
+Or a project which was coded in a mish-mash of JS & VBS, and which you need to make consistent?&nbsp;  
+I've had to do both way too many times.&nbsp; 
+Manually converting is a huge pain, and prone to create syntax mistakes.&nbsp; 
+After doing the same syntax conversions and thinking for the <i>n</i>th time that a computer should be doing this, I decided it would.&nbsp;
+Thus, the ScriptConverter tool was conceived, and way too many hours of painful regular expressions creation 
+were invested to bring it into the world.
+</p>
+
+<h3>How to use it:</h3>
+<p>
+	<ol>
+		<li>Paste in your VBScript (clear the original sample VBScript first).</li>
+		<li>Click the Convert button.</li>
+		<li>Copy out your Javascript.</li>
+		<li>Paste into your editor, and review for any remaining translation work.</li>
+	</ol>
+</p>
+
+
+<h3>limitations</h3>
+<p>ScriptConverter does not perform a complete translation.&nbsp; 
+It converts the basic & most-used language constructs -- the first 90% or so of the work.&nbsp;  
+The remaining 10% you will simply have to convert yourself.&nbsp;
+</p>
+<p>ScriptConverter has only been tested in IE6.&nbsp; It may not work correctly in other web browsers.</p>
+
+
+<h3>project docs</h3>
+<p>If you're interested in the planning & guts:
+<a href="/pages/code/scriptConverter/construct_map.html">language progress map</a>, 
+<a href="/pages/code/scriptConverter/demo.html" title="view source"
+	onclick="location = 'view-source:' + this.href; return false;">converter source</a>, 
+<a href="/pages/code/scriptConverter/scriptConverter.js" title="view source"
+	onclick="location = 'view-source:' + this.href; return false;">scriptConverter.js</a>,
+<a href="/pages/code/scriptConverter/vbs2js_conversions.js" title="view source"
+	onclick="location = 'view-source:' + this.href; return false;">vbs2js_conversions.js</a>,
+<a href="/pages/code/scriptConverter/scriptConverter.css" title="view source"
+	onclick="location = 'view-source:' + this.href; return false;">scriptConverter.css</a>
+</p>
+
+
+<h3>participation</h3>
+<p>If you want to contribute regular expressions for constructs which aren't covered 
+(or are better than existing ones), they're certainly welcome.&nbsp; 
+I'd love to open this up to be a community project.&nbsp;
+</p>
+<!--<p>OR, if you find this incredibly useful, and want to contribute financially, ...</p>-->
+
+
+
+<h3>claimers & disclaimers</h3>
+<p>ScriptConverter is a work-in-progress, so use it at your own risk.&nbsp; (And be sure to check your code!)</p>
+<p>You may use the tool freely, and copy it to use or play with locally, but please do not mirror it publicly without permission.&nbsp;</p>
+<p>ScriptConverter was created by Rob Eberhardt of 
+<a href="https://slingfive.com/" target="_top" title="Slingshot Solutions:
+Cincinnati-based Technical Solutions Consulting">Slingshot Solutions</a>.&nbsp;
+Send all comments/etc to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1b697e5b">[email&#160;protected]</a><a href="https://slingfive.com/" target="_top" title="Slingshot Solutions:
+Cincinnati-based Technical Solutions Consulting">slingfive.com</a>.
+</p>
+
+
+<h3>credits</h3>
+<p>There are a few people I gotta thank: Jon Wojtowicz for his contributions and encouragement, and 
+<a href="http://dean.edwards.name/" target="_top">Dean Edwards</a> for his clever js-highlight.htc behavior which I plugged into this.</p>
+
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

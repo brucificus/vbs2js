@@ -1,0 +1,126 @@
+
+<html>
+<head>
+<title>The ScriptConverter Tool</title>
+<link rel="Shortcut Icon" href="img/vbs2js.ico" />
+<link rel="stylesheet" type="text/css" href="scriptConverter.css" />
+<script language="javascript" src="vbs2js_conversions.js"></script>
+<script language="javascript" src="js2vbs_conversions.js"></script>
+<!--<script language="javascript" src="sampleCode.js"></script>-->
+<script language="javascript" for="window" event="onload" src="scriptConverter.js"></script>
+</head>
+
+
+
+<body>
+
+<table cellspacing="0" cellpadding="0" style="width:100%; height:100%;">
+<tr height="1"><td width="25%"></td><td width="25%"></td><td width="25%"></td><td width="25%"></td></tr>
+
+<tr>
+<td colspan="3" height="1">
+	<h4 style="margin:0;">The ScriptConverter Tool demo</h4>
+</td>
+<td>
+	<a href="./" style="font-size:x-small;">About The ScriptConverter Tool</a>
+</td>
+</tr>
+
+
+<tr>
+<td colspan="2" width="50%">
+
+<textarea id="input" NAME="input" wrap="off" title="input">
+OPTION EXPLICIT
+on error resume next
+on error goto 0
+
+DIM dct
+SET dct = CreateObject("Scripting.Dictionary")
+SET dct = nothing
+
+'SUB window_onload()
+	call fnJoke("Why'd the chicken cross the road?", answer())
+'END SUB
+
+Function answer()
+  answer = "GOTO 10"
+END FUNCTION
+
+SUB fnJoke(p_strJoke, p_strPunchline)
+  DIM strName, strPrompt
+  strName = inputbox("What's your name?", "important thing", "Anonymous")
+  strPrompt = "Hello " & strName & ", wanna hear a joke?"
+  IF msgbox(strPrompt, vbOKCancel)=vbOK THEN
+    msgbox p_strJoke & vbCRLF & vbCRLF & p_strPunchline
+  ELSEIF strName="Anonymous" THEN
+    ' tell it anyway
+    msgbox "i'll tell ya anyway." & vbCRLF & _
+      p_strJoke & vbCRLF & vbCRLF & p_strPunchline
+  ELSE	' doesn't wanna hear it
+    call msgbox("you are a PARTY POOPER, Mr. " & strName & "!")
+  END IF
+END Sub
+
+CONST testing = 2
+SELECT CASE testing
+	CASE 1
+		msgbox ucase("one")
+	CASE 2: msgbox lcase("two")
+	CASE 3
+		msgbox isNumeric("three")
+END SELECT
+</textarea>
+
+</td>
+<td colspan="2" width="50%">
+	<input type="hidden" id="hidOutput" />
+	<div id="output" title="output"></div>
+</td>
+</tr>
+
+
+
+<tr height="1">
+<td align="right">
+	<button onclick="input.value=''">clear</button>
+	<button title="test run current input code" 
+	language=vbscript onclick="execute(input.value)">run!</button>
+	script&nbsp;input
+</td>
+<td colspan="2" align="center">
+	<button title="decrease font size" id="btnDecreaseSize">-</button>
+	<button title="reset font size" id="btnResetSize">o</button>
+	<button title="increase font size" id="btnIncreaseSize">+</button>
+
+	<select id="conversionType" style="display:NONE;">
+		<option value="1">VBS to JS</option>
+		<option value="2">JS to VBS</option>
+	</select>
+	<button id="btnConvert" name="btnConvert" accessKey="C"><u>C</u>onvert &gt;&gt;</button>
+</td>
+<td align="left">
+	<button onclick="window.clipboardData.setData('Text',output.innerText); alert('Output copied to clipboard.');">copy</button>
+	<button onclick="output.innerHTML=''">clear</button>
+	<button title="test run current output code" 
+	onclick="eval(hidOutput.value)">run!</button>
+	script&nbsp;output
+</td>
+</tr>
+
+<tr>
+<td colspan="4" height="1">
+	<div id="options">
+	OPTIONS:
+	<input type="checkbox" id="collapseConcat" class="chk" checked="checked" />
+	<label for="collapseConcat">collapse string concatenation</label>
+	</div>
+</td>
+</tr>
+
+
+</table>
+
+
+</body>
+</html>

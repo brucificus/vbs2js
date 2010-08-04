@@ -1,0 +1,138 @@
+BODY {
+background:#fffff8;
+}
+FORM {
+margin:0;
+}
+
+
+H1,H2,H3,H4,H5,H6 {
+margin-bottom:0;
+}
+
+H1, H2, H3 {
+font-weight:normal;
+}
+h3 {
+border-bottom:1px black solid;
+}
+
+H1 {
+text-align:left;
+margin-bottom:0.25em;
+line-height:0.75em;
+padding-left:1ex;
+text-indent:-1ex;
+}
+H3 {
+text-transform:lowercase;
+font-style:italic;
+border-bottom:1px navy solid;
+padding-left:1ex;
+background:#f0f0f8 url(http://slingfive.com/img/Curve.asp?Color1=fffff4&Color2=f0f0f8&Curve=TopLeft) top left no-repeat;
+width:99%;
+filter:alpha(style=1, opacity=100, finishOpacity=0, startX=25, finishX=100);
+}
+
+.subtitle {
+margin-top:-0.4em;
+font-style:italic;
+font-weight:normal;
+border:0;
+font-size:medium;
+}
+
+H3 .headerNote {
+font-size:75%;
+font-style:italic;
+}
+
+
+
+P {
+margin-top:0;
+}
+
+
+
+UL, OL {
+line-height:1em;
+padding:0;
+margin:0;
+margin-left:1.5em;
+}
+LI {
+padding:0;
+margin:0;
+margin-bottom:0.5em;
+}
+LI P {
+margin:0.67em auto 0.67em auto;
+}
+
+
+DL {
+margin-top:0;
+}
+DD {
+margin-left:0;
+}
+Dt {
+margin-left:1.25em;
+}
+
+
+.itemName {
+font-style:italic;
+}
+
+
+SUP {	/* fix sup so it doesn't push stuff around */
+vertical-align:auto;
+position:relative;
+top:-0.4em;
+font-size:80%;
+}
+
+
+TT, CODE, PRE, KBD, SAMP, .codeKeyword {
+font:75% 'Lucida Console', monospace;
+}
+PRE.code, CODE {
+white-space:nowrap;
+border:1px #ddd dashed;
+background:#f8f8f8;
+padding:2px 4px 0px 4px;
+-height:1em;	/* makes margin kick in */
+Ndisplay:inline-block;
+font-size:65%;
+}
+
+PRE.code {
+white-space:pre;
+}
+
+
+
+
+/* 
+shrunk classes -- shrink it down closer to button text size; 
+define on either button or button parent;
+shrunk# <-- # defines extra padding levels 0 to 4 (default is 2)
+*/
+.shrunk0 BUTTON, BUTTON.shrunk0 {
+width:expression((this.innerText.length)+0 + 'ex');
+}
+.shrunk1 BUTTON, BUTTON.shrunk1 {
+width:expression((this.innerText.length)+1 + 'ex');
+}
+.shrunk2 BUTTON, BUTTON.shrunk2, 
+	.shrunk BUTTON, BUTTON.shrunk {
+width:expression((this.innerText.length)+2 + 'ex');
+}
+.shrunk3 BUTTON, BUTTON.shrunk3 {
+width:expression((this.innerText.length)+3 + 'ex');
+}
+.shrunk4 BUTTON, BUTTON.shrunk4 {
+width:expression((this.innerText.length)+4 + 'ex');
+}

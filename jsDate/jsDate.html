@@ -1,0 +1,275 @@
+
+<html>
+<head>
+<title>jsDate</title>
+<link rel="stylesheet" type="text/css" href="../code_articles.css" />
+<style type="text/css">
+BUTTON {height:1.75em;}
+SELECT {width:22.25em; font:0.75em 'Lucida Console';}
+INPUT {width:20em;}
+H6 {font:italic bold 1em normal; margin:0;}
+LABEL SPAN {float:left; _float:; width:6.5em; background:inherit; padding-left:1ex;}
+
+#params {float:left; width:40%; white-space:nowrap;}
+#params #chkAbbreviate {width:auto;}
+
+#functions {float:right; width:50%;}
+#functions BUTTON {width:100%; _width:90%; height:1.67em; text-align:left; padding-left:1ex; white-space:nowrap;}
+#code {width:50%;}
+
+#result {width:98%; font-size:150%; line-height:0.8; border-bottom:1px navy dotted; padding-left:1ex; color:navy; background:white;}
+</style>
+<script language="javascript" type="text/javascript" src="jsDate.js"></script>
+<script language="javascript" type="text/javascript" src="jsDate_demo.js"></script>
+</head>
+
+<body>
+<h1>jsDate</h1>
+<h2 class="subtitle">VBScript and VB6 native Date functions emulated in Javascript</h2>
+
+
+<h3>About</h3>
+<p>As a scripting language, 
+<a href="https://www.mozilla.org/js/" target="_top">Javascript</a> (aka 
+<a href="https://en.wikipedia.org/wiki/ECMAScript" target="_top">ECMAScript</a>, aka 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/js56jslrfjscriptlanguagereference.asp" target="ref">JScript</a>) 
+is extremely powerful, but quite weak with date/time manipulation.&nbsp;  Several types of date/time operations 
+are very difficult to accomplish (and accurately) in Javascript.&nbsp;
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vbscripttoc.asp" target="ref">VBScript</a> is comparatively 
+very strong in that area, though, with several intrinsic date/time-related functions, like 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctIsDate.asp" target="ref" class="codeKeyword">IsDate</a>, 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctCDate.asp" target="ref" class="codeKeyword">CDate</a>, 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctDateAdd.asp" target="ref" class="codeKeyword">DateAdd</a>, 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctDateDiff.asp" target="ref" class="codeKeyword">DateDiff</a>, 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctDatePart.asp" target="ref" class="codeKeyword">DatePart</a>, 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctMonthName.asp" target="ref" class="codeKeyword">MonthName</a>, 
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctWeekdayName.asp" target="ref" class="codeKeyword">WeekdayName</a>, and
+<a href="https://msdn.microsoft.com/library/en-us/script56/html/vsfctFormatDateTime.asp" target="ref" class="codeKeyword">FormatDateTime</a>.&nbsp; 
+Better yet is 
+<a href="https://msdn.microsoft.com/library/en-us/dnanchor/html/vb6anchor.asp" target="ref" title="Visual Basic 6">VB6</a>'s 
+<a href="http://www.apostate.com/programming/vb-format.html" target="ref" title="VB6 Format function" class="codeKeyword">Format</a> function.&nbsp; 
+</p>
+<p>Anyway, after banging my head on the wall for the nth time, I decided to try to re-create those functions in a Javascript include file, 
+called <span class="itemName">jsDate</span>.&nbsp; Try it out...
+</p>
+
+
+
+
+<h3>Live Demo
+	<span style="font-size:67%;">(element relationships: <span style="color:blue;">related</span>, <span style="background:#ff9;">&nbsp;active </span>)</span>
+</h3>
+
+
+
+<div id="params">
+	<h6>1) pick Parameters:</h6>
+
+	<label for="txtDate1"><span>date1</span>
+	<input type="text" id="txtDate1" value="9/2/2018 1:23:45 am" /></label>
+	<button onclick="oDate1.value = new Date();" title="set to Now">#</button><br />
+	
+	<label for="txtDate2"><span>date2</span>
+	<input type="text" id="txtDate2" value="12/5/2018 5:43:21 am" /></label>
+	<button onclick="oDate2.value = new Date();" title="set to Now">#</button><br />
+		
+	<label for="selInterval"><span>interval</span>
+	<select id="selInterval">
+		<option value=""></option>
+		<option value="yyyy" selected="selected">yyyy (year)</option>
+		<option value="q">q &nbsp; &nbsp;(quarter)</option>
+		<option value="m">m &nbsp; &nbsp;(month)</option>
+		<option value="y">y &nbsp; &nbsp;(day of year)</option>
+		<option value="d">d &nbsp; &nbsp;(day)</option>
+		<option value="w">w &nbsp; &nbsp;(weekday)</option>
+		<option value="ww">ww &nbsp;&nbsp;(week of year)</option>
+		<option value="h">h &nbsp; &nbsp;(hour)</option>
+		<option value="n">n &nbsp; &nbsp;(minute)</option>
+		<option value="s">s &nbsp; &nbsp;(seconds)</option>
+		<option value="ms" style="color:red;">ms &nbsp;&nbsp;(milliseconds)</option>
+	</select></label><br />
+
+	<label for="txtNumber"><span>number</span>
+	<input type="text" id="txtNumber" value="1" /></label><br />
+
+	<label for="selFirstDayOfWeek"><span>firstDayOfWeek</span>
+	<select id="selFirstDayOfWeek">
+		<option value=""></option>
+		<option value="0">0 : vbUseSystemDayOfWeek (==1)</option>
+		<option value="1">1 : vbSunday</option>
+		<option value="2">2 : vbMonday</option>
+		<option value="3">3 : vbTuesday</option>
+		<option value="4">4 : vbWednesday</option>		
+		<option value="5">5 : vbThursday</option>		
+		<option value="6">6 : vbFriday</option>		
+		<option value="7">7 : vbSaturday</option>		
+	</select></label><br />
+	
+	<label for="selNamedFormat"><span>namedFormat</span>
+	<select id="selNamedFormat">
+		<option value=""></option>
+		<option value="0" selected="selected">0 : vbGeneralDate</option>
+		<option value="1">1 : vbLongDate</option>
+		<option value="2">2 : vbShortDate</option>
+		<option value="3">3 : vbLongTime</option>
+		<option value="4">4 : vbShortTime</option>		
+	</select></label><br />
+
+	<label for="txtFormat"><span>format</span>
+	<input type="text" id="txtFormat" value="ddd mmm d, yyyy" 	title="possible values:
+	c, d, dd, ddd, dddd, ddddd, dddddd, m, mm, mmm, mmmm, q, y, yy, yyyy
+	h, hh, n, nn, s, ss, t t t t t, AM/PM, am/pm, A/P, a/p, AMPM, timezone, time24, time
+"/></label><br />
+	<label for="chkAbbreviate"><span>abbreviate</span>
+	<input type="checkbox" id="chkAbbreviate" value="true" /></label><br />
+
+</div>
+
+
+<div id="functions">
+	<h6>2) call a Function:</h6>
+	<div style="display:table;">
+	<button id="btnTestIsDate" assocCtlIDs="txtDate1"
+		><b>IsDate</b> (date1)</button><br />
+	<button id="btnTestCDate" assocCtlIDs="txtDate1"
+		><b>CDate</b> (date1)</button><br />
+	<button id="btnTestDateAdd" assocCtlIDs="selInterval,txtNumber,txtDate1"
+		><b>DateAdd</b> (interval, number, date1)</button><br />
+	<button id="btnTestDateDiff" assocCtlIDs="selInterval,txtDate1,txtDate2,selFirstDayOfWeek"
+		><b>DateDiff</b> (interval, date1, date2, <i>firstDayOfWeek</i>)</button><br />
+	<button id="btnTestDatePart" assocCtlIDs="selInterval,txtDate1,selFirstDayOfWeek"
+		><b>DatePart</b> (interval, date1, <i>firstDayOfWeek</i>)</button><br />
+	<button id="btnTestMonthName" assocCtlIDs="txtNumber,chkAbbreviate"
+		><b>MonthName</b> (number, <i>abbreviate</i>)</button><br />
+	<button id="btnTestWeekdayName" assocCtlIDs="txtNumber,chkAbbreviate,selFirstDayOfWeek"
+		><b>WeekdayName</b> (number, <i>abbreviate</i>, <i>firstDayOfWeek</i>)</button><br />
+	<button id="btnTestWeekday" assocCtlIDs="txtNumber,selFirstDayOfWeek"
+		><b>Weekday</b> (number, <i>firstDayOfWeek</i>)</button><br />
+	<button id="btnTestFormatDateTime" assocCtlIDs="txtDate1,selNamedFormat"
+		><b>FormatDateTime</b> (date1, <i>namedFormat</i>)</button><br />
+	<button id="btnTestFormat" assocCtlIDs="txtDate1,txtFormat,selFirstDayOfWeek"
+		><b>Format</b> (date1, <i>format</i>, <i>firstDayOfWeek</i>)</button><br />
+	</div>
+</div>
+
+<br clear="all" />
+<h6 style="margin-top:-1em;">3) and get this Result:</h6>
+<div id="result">&nbsp;</div>
+
+
+<p><h3>Source (right-click and save)</h3>
+<strong><a href="jsDate.js" target="_blank">jsDate.js</a></strong>, 
+<a href="jsDate.html" target="_blank">jsDate.html (this page)</a>,
+<a href="jsDate_demo.js" target="_blank">jsDate_demo.js (this page's "glue" script)</a>
+</p>
+
+
+
+<h3>notes</h3>
+<ul>
+<li><span class="codeKeyword">IsDate</span>, <span class="codeKeyword">DateAdd</span>, and
+<span class="codeKeyword">DateDiff</span> are the biggest helps for Javascript.&nbsp The rest are icing.</li>
+
+<li>Compatibility: the functions should work in any modern browser.&nbsp; The demo itself works in IE and Firefox at least.</li>
+
+<li>Usage: copy the file to your project, link to it, and you can begin using the functions just as in VBScript.</li>
+
+<li>Limitations: in VBScript, <span class="codeKeyword">DateDiff</span> and <span class="codeKeyword">DatePart()</span> accept the 
+option parameter <span class="codeKeyword">FirstWeekOfYear</span>.&nbsp; 
+<span class="itemName">jsDate</span> ignores this, and assumes Sunday &amp; the week of January 1st (which are VBScript's defaults).
+</STRIKE>
+</li>
+
+<li>Enhancements: <span class="itemName">jsDate</span>'s <span class="codeKeyword">DateAdd</span> and 
+<span class="codeKeyword">DateDiff</span> functions can track Milliseconds (unlike VBScript).&nbsp;  I've also added a 
+<span class="codeKeyword">Format</span> function emulating the same in VB6 (date-features only).&nbsp; This should fill the gaps in 
+<span class="codeKeyword">FormatDateTime</span> (which wraps <span class="codeKeyword">Format</span> anyway).</li>
+
+<li>Other differences: <span class="itemName">jsDate</span>'s <span class="codeKeyword">IsDate</span> has different tolerances than VBScript's.&nbsp; 
+It allows otherwise invalid date <em>values</em> through (Javascript internally "corrects" the date, e.g. 1/32/2000 &rarr; 2/1/2000), but
+disallows other date formats which VBScript accepts (e.g. yearless dates, dateless time, and dash or dot date separators).&nbsp; 
+I added the new <span class="codeKeyword">CDate</span> implementation for this reason.</li>
+
+<li>It turns out that VBScript's DateDiff does <strong>not</strong> check that each YYYY, M, or Q interval has been <em>completed</em>, 
+but just if it has <em>rolled over</em> into a new one.&nbsp; So in VBScript, <code>DateDiff("yyyy", "12/31/2000", "1/1/2001")</code> 
+returns 1 (even though it's just 1 <em>day</em> completed, not a year).&nbsp; As of v0.94, <span class="itemName">jsDate</span>'s 
+<span class="codeKeyword">DateDiff</span> now behaves this way too.&nbsp; One exception is the Q interval, which still checks for 3 
+months <em>completed</em> (does anyone really use Q?).</li>
+
+<li>maybe TODO: better documentation;  make jsDate's IsDate tolerances more like VBScript's;  implement FirstWeekOfYear parameter;  implement Now;  implement DateSerial/DateValue/Time/TimeSerial/TimeValue?;  <!-- implement Day/Month/Year/Hour/Minute/Second?-->
+</li>
+</ul>
+
+
+<p><h3>history</h3>
+<ul>
+<li>2018-10-09	- <a href="jsDate_v2018-10-09.zip">v2018-10-09</a>:
+	<i>(been long enough?) </i>
+	<ul>
+		<li>Format: fixed "mm" token to properly pad</li>
+		<li>IsDate: return false for null (unlike Javascript, which bizarrely returns the epoch for <code>new Date(null)</code>)</li>
+	</ul>
+<li>2006-03-28	- <a href="jsDate_v100b1.zip">v1.00 b1</a>:
+	<ul>
+		<li>added MonthNames and WeekdayNames arrays
+		<li>added FormatDateTime w/US defaults
+		<li>added VB6's Format, for better non-US flexibility
+		<li>changed functions to methods of intrinsic Date object
+		<li>changed DateDiff to now accept yearless date params, like VBS
+		<li>implemented CDate (can handle dash/dot date separators, yearless dates, dateless times &amp; other variations)
+		<li>implemented DateDiff/"ww" interval
+		<li>implemented FirstDayOfWeek parameter on DateDiff, DatePart, WeekdayName, and Format
+		<li>fixed DatePart/"y", "w", &amp; "ww" intervals
+		<li>fixed DateDiff/"w" interval (caught by Michael Leibman) 
+		<li>fixed DateDiff/DST rollover (thanks to Roger Dear for the heads-up &amp; Michael Leibman for suggesting a fix)
+		<li>fixed MonthName &amp; WeekdayName params to match VBS (now accept number, but dates still work for compatibility)
+	</ul>
+</li>
+<li>2005-08-04	- <a href="jsDate_v094.zip">v0.94</a>:
+	<ul>
+		<li>scrapped 0.93b's new DateDiff interval code to better match VBScript's simplistic approach</li>
+	</ul>
+</li>
+<li>2005-08-03	- <a href="jsDate_v093.zip">v0.93b</a>:
+	<ul>
+		<li>fixed DateDiff/leapyear bug with "yyyy", "m", &amp; "q" intervals (thanks 
+Rolando and 
+<a href="https://web.archive.org/web/20120714055136/http://www.merlyn.demon.co.uk:80/js-date0.htm" target="_blank">Dr. John</a> for catching this)
+		</li>
+	</ul>
+</li>
+<li>2004-11-26	- <a href="jsDate_v091.zip">v0.91</a>: 
+	<ul>
+		<li>fixed DatePart/"ww" bug</li>
+		<li>added WeekdayName &amp; MonthName</li>
+		<li>first published</li>
+	</ul>
+</li>
+<li>2004-08-30	- v0.9:
+	<ul>
+		<li>brand new</li>
+	</ul>
+</li>
+
+</ul>
+</p>
+
+
+
+
+<p><h3>support</h3>
+As-is, etc.&nbsp; If you ask nicely, I may provide support via email.
+</p>
+
+<p><h3>credits/author</h3>
+-Rob (@slingfive) Eberhardt, <a href="https://slingfive.com/" target="_top" title="Slingshot Solutions &#13;- web & software development consulting">Slingshot Solutions</a><br />
+Use freely, but be honest about it.&nbsp; I just ask for credit.&nbsp; Feedback and contributions are welcome and desired.
+</p>
+
+<p><a href="https://slingfive.com/" target="_top" title="Slingshot Solutions &#13;- web & software development consulting">ï¿½ slingfive.com</a></p>
+
+
+
+
+</body>
+</html>
