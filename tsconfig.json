@@ -5,8 +5,7 @@
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
   },
-  "include": ["src/index.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }
