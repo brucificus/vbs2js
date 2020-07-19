@@ -55,7 +55,7 @@ arrVBStoJS.push(new Array('(?=\\s*)&(?!#|[a-z]+;)', '+'));
 
 //-- functions
 // function return (must be converted 1st, depends on vbs function syntax)
-arrVBStoJS.push(new Array('^FUNCTION[ \t]*([^\(]*)(?:.*\r\n)*?END FUNCTION', vb2js_functionreturn));	//<-- note: replacement is actually function pointer
+arrVBStoJS.push(new Array('^FUNCTION[ \t]*([^\(]*)(?:.*\r\n)*?END FUNCTION' as unknown, vb2js_functionreturn));	//<-- note: replacement is actually function pointer
 // declare function/sub
 arrVBStoJS.push(new Array('^([ \t/]*)(?:FUNCTION|SUB)[ \t]+(.+)\r\n', '$1function $2{\r\n'));	//TODO: correct paren-less procs
 // sub/function object_OnEvent (must run after declare function/sub above)
@@ -226,7 +226,7 @@ arrVBStoJS.push(new Array('vbArray', '8192'));
 //==== extended, procedural conversions ====
 
 // convert 'functionname=returnval' to 'return returnval'
-function vb2js_functionreturn(p_strFunction){
+function vb2js_functionreturn(p_strFunction: string): string {
 	var re = new RegExp('^FUNCTION[ \t]*([^\(]*)(?:.*\r\n)*?END FUNCTION', 'igm');
 	re.exec(p_strFunction);
 	var strFunctionName = RegExp.$1;
@@ -236,31 +236,6 @@ function vb2js_functionreturn(p_strFunction){
 	var strRet = p_strFunction.toString().replace(reReturn, 'return $2');
 	return strRet;
 }
-
-
-
-
-
-
-
-// optional conversion patterns to decide at runtime based on user selections
-function getVBStoJSOptionsArr(){
-	var l_arrOptions = new Array();
-
-	// collapse string concatenations
-	if(collapseConcat && collapseConcat.checked){
-		l_arrOptions.push(new Array("' \\+ '", ''));
-		l_arrOptions.push(new Array('" \\+ "', ''));
-	}
-
-
-	return l_arrOptions;
-}
-
-
-
-
-
 
 
 
@@ -453,4 +428,4 @@ function parse()
 
 */
 
-module.exports = arrVBStoJS;
+export = arrVBStoJS;
