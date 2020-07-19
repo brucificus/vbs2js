@@ -5,7 +5,7 @@ function init(){
 	colInputs = $(arrInputCtlIDs);
 	colTestBtns = $("functions").getElementsByTagName("BUTTON");
 	oCode = $("code");
-	
+
 	oDate1 = $("txtDate1");
 	oDate2 = $("txtDate2");
 	oInterval = $("selInterval");
@@ -15,7 +15,7 @@ function init(){
 	oFormat = $("txtFormat");
 	oFirstDayOfWeek = $("selFirstDayOfWeek");
 	oAbbreviate = $("chkAbbreviate");
-	
+
 
 	// hookup testing logic
 	$("btnTestIsDate").onclick=function(e){
@@ -65,7 +65,7 @@ function init(){
 		evalOnColl(colTestBtns, "style.color=''");
 		evalOnColl(colInputs, "parentNode.style.color=''");
 	}
-	
+
 }
 
 
@@ -75,7 +75,7 @@ function assocCtls(e, p_strExprToEval){
 	var oBtn = findElement(srcElem, "BUTTON")
 	if(!oBtn.tagName){return}
 	eval("oBtn." + p_strExprToEval);	//CSS2's :focus & :hover for IE
-	
+
 	var ctls = $(oBtn.getAttribute("assocCtlIDs").toString().split(','));
 	if(!ctls.push){ctls = new Array(ctls)};
 	evalOnColl(ctls, 'parentNode.' + p_strExprToEval);

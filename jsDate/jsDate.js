@@ -31,7 +31,7 @@ Date.CDate = function(p_Date){
 
 	var strTryYear = strTry + '/' + new Date().getFullYear();	// append year
 	if(Date.IsDate(strTryYear)){ return new Date(strTryYear); }
-	
+
 
 	if(strTry.indexOf(":")){	// if appears to have time
 		var strTryYear2 = strTry.replace(/ /, '/' + new Date().getFullYear() + ' ');	// insert year
@@ -40,20 +40,20 @@ Date.CDate = function(p_Date){
 		var strTryDate = new Date().toDateString() + ' ' + p_Date;	// pre-pend current date
 		if(Date.IsDate(strTryDate)){ return new Date(strTryDate); }
 	}
-	
+
 	return false;	// double as looser IsDate
-	//throw("Error #13 - Type mismatch");	// or is this better? 
+	//throw("Error #13 - Type mismatch");	// or is this better?
 }
- 
+
 
 
 Date.DateAdd = function(p_Interval, p_Number, p_Date){
 	if(!Date.CDate(p_Date)){	return "invalid date: '" + p_Date + "'";	}
-	if(isNaN(p_Number)){	return "invalid number: '" + p_Number + "'";	}	
+	if(isNaN(p_Number)){	return "invalid number: '" + p_Number + "'";	}
 
 	p_Number = new Number(p_Number);
 	var dt = Date.CDate(p_Date);
-	
+
 	switch(p_Interval.toLowerCase()){
 		case "yyyy": {
 			dt.setFullYear(dt.getFullYear() + p_Number);
@@ -125,7 +125,7 @@ Date.DateDiff = function(p_Interval, p_Date1, p_Date2, p_FirstDayOfWeek){
 	var nYears  = dt2.getUTCFullYear() - dt1.getUTCFullYear();
 	var nMonths = dt2.getUTCMonth() - dt1.getUTCMonth() + (nYears!=0 ? nYears*12 : 0);
 	var nQuarters = parseInt(nMonths / 3);	//<<-- different than VBScript, which watches rollover not completion
-	
+
 	var nMilliseconds = iDiffMS;
 	var nSeconds = parseInt(iDiffMS / 1000);
 	var nMinutes = parseInt(nSeconds / 60);
@@ -144,8 +144,8 @@ Date.DateDiff = function(p_Interval, p_Date1, p_Date2, p_FirstDayOfWeek){
 			var nCalWeeks = Date.DateDiff("w", dt1, dt2) + 1;
 	}
 	// TODO: similar for 'w'?
-	
-	
+
+
 	// return difference
 	switch(p_Interval.toLowerCase()){
 		case "yyyy": return nYears;
@@ -154,7 +154,7 @@ Date.DateDiff = function(p_Interval, p_Date1, p_Date2, p_FirstDayOfWeek){
 		case "y":			// day of year
 		case "d": return nDays;
 		case "w": return nWeeks;
-		case "ww":return nCalWeeks; // week of year	
+		case "ww":return nCalWeeks; // week of year
 		case "h": return nHours;
 		case "n": return nMinutes;
 		case "s": return nSeconds;
@@ -170,7 +170,7 @@ Date.DatePart = function(p_Interval, p_Date, p_FirstDayOfWeek){
 	if(!Date.CDate(p_Date)){	return "invalid date: '" + p_Date + "'";	}
 
 	var dtPart = Date.CDate(p_Date);
-	
+
 	switch(p_Interval.toLowerCase()){
 		case "yyyy": return dtPart.getFullYear();
 		case "q": return parseInt(dtPart.getMonth() / 3) + 1;
@@ -216,7 +216,7 @@ Date.WeekdayName = function(p_Weekday, p_Abbreviate, p_FirstDayOfWeek){
 
 
 // adjusts weekday for week starting on p_FirstDayOfWeek
-Date.Weekday=function(p_Weekday, p_FirstDayOfWeek){	
+Date.Weekday=function(p_Weekday, p_FirstDayOfWeek){
 	p_FirstDayOfWeek = (isNaN(p_FirstDayOfWeek) || p_FirstDayOfWeek==0) ? vbSunday : parseInt(p_FirstDayOfWeek);	// set default & cast
 
 	return ((parseInt(p_Weekday) - p_FirstDayOfWeek +7) % 7) + 1;
@@ -265,13 +265,13 @@ Date.Format = function(p_Date, p_Format, p_FirstDayOfWeek, p_firstweekofyear) {
 	var strLongDate = Date.MonthName(dt.getMonth()+1) +' '+ dt.getDate() +', '+ dt.getFullYear();		//
 
 	var retVal = p_Format;
-	
+
 	// switch tokens whose alpha replacements could be accidentally captured
-	retVal = retVal.replace( new RegExp('C', 'gi'), 'CCCC' ); 
+	retVal = retVal.replace( new RegExp('C', 'gi'), 'CCCC' );
 	retVal = retVal.replace( new RegExp('mmmm', 'gi'), 'XXXX' );
 	retVal = retVal.replace( new RegExp('mmm', 'gi'), 'XXX' );
-	retVal = retVal.replace( new RegExp('dddddd', 'gi'), 'AAAAAA' ); 
-	retVal = retVal.replace( new RegExp('ddddd', 'gi'), 'AAAAA' ); 
+	retVal = retVal.replace( new RegExp('dddddd', 'gi'), 'AAAAAA' );
+	retVal = retVal.replace( new RegExp('ddddd', 'gi'), 'AAAAA' );
 	retVal = retVal.replace( new RegExp('dddd', 'gi'), 'AAAA' );
 	retVal = retVal.replace( new RegExp('ddd', 'gi'), 'AAA' );
 	retVal = retVal.replace( new RegExp('timezone', 'gi'), 'ZZZZ' );
@@ -283,17 +283,17 @@ Date.Format = function(p_Date, p_Format, p_FirstDayOfWeek, p_firstweekofyear) {
 	retVal = retVal.replace( new RegExp('yy', 'gi'), new String( dt.getFullYear() ).substring(2,4) );
 	retVal = retVal.replace( new RegExp('y', 'gi'), Date.DatePart("y", dt) );
 	retVal = retVal.replace( new RegExp('q', 'gi'), Date.DatePart("q", dt) );
-	retVal = retVal.replace( new RegExp('mm', 'gi'), this.pad(dt.getMonth() + 1) );	
-	retVal = retVal.replace( new RegExp('m', 'gi'), (dt.getMonth() + 1) );	
+	retVal = retVal.replace( new RegExp('mm', 'gi'), this.pad(dt.getMonth() + 1) );
+	retVal = retVal.replace( new RegExp('m', 'gi'), (dt.getMonth() + 1) );
 	retVal = retVal.replace( new RegExp('dd', 'gi'), this.pad(dt.getDate()) );
 	retVal = retVal.replace( new RegExp('d', 'gi'), dt.getDate() );
 	retVal = retVal.replace( new RegExp('hh', 'gi'), this.pad(dt.getHours()) );
 	retVal = retVal.replace( new RegExp('h', 'gi'), dt.getHours() );
 	retVal = retVal.replace( new RegExp('nn', 'gi'), this.pad(dt.getMinutes()) );
 	retVal = retVal.replace( new RegExp('n', 'gi'), dt.getMinutes() );
-	retVal = retVal.replace( new RegExp('ss', 'gi'), this.pad(dt.getSeconds()) ); 
-	retVal = retVal.replace( new RegExp('s', 'gi'), dt.getSeconds() ); 
-	retVal = retVal.replace( new RegExp('t t t t t', 'gi'), strShortTime ); 
+	retVal = retVal.replace( new RegExp('ss', 'gi'), this.pad(dt.getSeconds()) );
+	retVal = retVal.replace( new RegExp('s', 'gi'), dt.getSeconds() );
+	retVal = retVal.replace( new RegExp('t t t t t', 'gi'), strShortTime );
 	retVal = retVal.replace( new RegExp('am/pm', 'g'), dt.getHours()>=12 ? 'pm' : 'am');
 	retVal = retVal.replace( new RegExp('AM/PM', 'g'), dt.getHours()>=12 ? 'PM' : 'AM');
 	retVal = retVal.replace( new RegExp('a/p', 'g'), dt.getHours()>=12 ? 'p' : 'a');
@@ -301,16 +301,16 @@ Date.Format = function(p_Date, p_Format, p_FirstDayOfWeek, p_firstweekofyear) {
 	retVal = retVal.replace( new RegExp('AMPM', 'g'), dt.getHours()>=12 ? 'pm' : 'am');
 	// (always proceed largest same-lettered token to smallest)
 
-	// now finish the previously set-aside tokens 
+	// now finish the previously set-aside tokens
 	retVal = retVal.replace( new RegExp('XXXX', 'gi'), Date.MonthName(dt.getMonth()+1, false) );	//
 	retVal = retVal.replace( new RegExp('XXX',  'gi'), Date.MonthName(dt.getMonth()+1, true ) );	//
-	retVal = retVal.replace( new RegExp('AAAAAA', 'gi'), strLongDate ); 
-	retVal = retVal.replace( new RegExp('AAAAA', 'gi'), strShortDate ); 
-	retVal = retVal.replace( new RegExp('AAAA', 'gi'), Date.WeekdayName(dt.getDay()+1, false, p_FirstDayOfWeek) );	// 
-	retVal = retVal.replace( new RegExp('AAA',  'gi'), Date.WeekdayName(dt.getDay()+1, true,  p_FirstDayOfWeek) );	// 
+	retVal = retVal.replace( new RegExp('AAAAAA', 'gi'), strLongDate );
+	retVal = retVal.replace( new RegExp('AAAAA', 'gi'), strShortDate );
+	retVal = retVal.replace( new RegExp('AAAA', 'gi'), Date.WeekdayName(dt.getDay()+1, false, p_FirstDayOfWeek) );	//
+	retVal = retVal.replace( new RegExp('AAA',  'gi'), Date.WeekdayName(dt.getDay()+1, true,  p_FirstDayOfWeek) );	//
 	retVal = retVal.replace( new RegExp('TTTT', 'gi'), dt.getHours() + ':' + this.pad(dt.getMinutes()) );
 	retVal = retVal.replace( new RegExp('TTT',  'gi'), hr +':'+ this.pad(dt.getMinutes()) +' '+ ampm );
-	retVal = retVal.replace( new RegExp('CCCC', 'gi'), strShortDate +' '+ strShortTime ); 
+	retVal = retVal.replace( new RegExp('CCCC', 'gi'), strShortDate +' '+ strShortTime );
 
 	// finally timezone
 	tz = dt.getTimezoneOffset();

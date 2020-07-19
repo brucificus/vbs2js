@@ -8,16 +8,16 @@
 //===========================================================================
 /* good pattern parts
 
-capture optional 2nd param & preceding comma -->	, blah 
+capture optional 2nd param & preceding comma -->	, blah
 (,?\\s*[^,\\)\r\n]*)
 
 whatever after last pattern and before close of parens or end of line -->	blah..)
 [^\\)\r\n]*[\\)\r\n]?
 
 
-TODO: 
+TODO:
 	-finish/fix select case
-	-exit function -> ...? 
+	-exit function -> ...?
 	/-lcase/ucase -> toLowerCase()/toUpperCase()
 	/-sub/function object_OnEvent --> object.onevent=function
 
@@ -68,7 +68,7 @@ arrVBStoJS.push(new Array('call ', ''));
 
 
 
-//-- comparison operators 
+//-- comparison operators
 // equal  (must be run before IF statement conversion)
 arrVBStoJS.push(new Array('(IF\\s+\\S+\\s*)=(\\s*\\S+\\s+THEN)', "$1==$2"));
 //arrVBStoJS.push(new Array('(\\sif.+)=(.+then)', '$1==$2');	//<-- example for JS if statement
@@ -121,11 +121,11 @@ arrVBStoJS.push(new Array('^([ \t]*)END SELECT','$1}'));
 
 
 //-- OBJECT stuff
-// instantiate object 
+// instantiate object
 arrVBStoJS.push(new Array('[\\s]*(Server.)*CreateObject\\("', ' new ActiveXObject("'));
-// SET 
+// SET
 arrVBStoJS.push(new Array('\\sSET\\s+', ''));
-// nothing 
+// nothing
 arrVBStoJS.push(new Array('nothing', 'null'));
 
 
@@ -179,27 +179,27 @@ arrVBStoJS.push(new Array('(^[ \t]*)\;\r\n', '\r\n'));	// blank lines
 
 
 //-- vbs constants
-// String 
+// String
 arrVBStoJS.push(new Array('vbCRLF', "'\\r\\n'"));
 arrVBStoJS.push(new Array('vbCR', "'\\r'"));
 arrVBStoJS.push(new Array('vbLF', "'\\n'"));
 arrVBStoJS.push(new Array('vbTab', "'\\t'"));
-// MsgBox 
+// MsgBox
 arrVBStoJS.push(new Array('vbOK', '1'));
 arrVBStoJS.push(new Array('vbCancel', '2'));
 arrVBStoJS.push(new Array('vbAbort', '3'));
 arrVBStoJS.push(new Array('vbRetry', '4'));
 arrVBStoJS.push(new Array('vbIgnore', '5'));
 arrVBStoJS.push(new Array('vbYes', '6'));
-arrVBStoJS.push(new Array('vbNo', '7'));	
-// Comparison 
+arrVBStoJS.push(new Array('vbNo', '7'));
+// Comparison
 arrVBStoJS.push(new Array('vbBinaryCompare', '0'));
 arrVBStoJS.push(new Array('vbTextCompare', '1'));
-// Tristate 
+// Tristate
 arrVBStoJS.push(new Array('vbUseDefault', '-2'));
 arrVBStoJS.push(new Array('vbTrue', '-1'));
 arrVBStoJS.push(new Array('vbFalse', '0'));
-// VarType 
+// VarType
 arrVBStoJS.push(new Array('vbEmpty', '0'));
 arrVBStoJS.push(new Array('vbNull', '1'));
 arrVBStoJS.push(new Array('vbInteger', '2'));
@@ -270,9 +270,9 @@ function getVBStoJSOptionsArr(){
 
 //Select Case regexp - needs work
 
-var selectRegExp = new Array(/(\s+)select 
+var selectRegExp = new Array(/(\s+)select
 case\s*(\w*)\s+\n/gi,"$1switch($2){\n");
-var breakRegExp = new 
+var breakRegExp = new
 Array(/(\s+case\s*)([\S*|\s*]*)(\s+case)/gi,"$1$2\nbreak;$3");
 var caseElseRegExp = new Array(/(\s+)case else\s/gi,"$1default: ");
 var caseRegExp = new Array(/(\s+)case\s*(\S*)\s/gi,"$1case $2: ");

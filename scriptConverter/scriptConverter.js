@@ -2,7 +2,7 @@
 function fnConvert(p_arrConversionSet, p_strScriptToConvert){
 	var strRet = p_strScriptToConvert;
 	var arrConversionSet = p_arrConversionSet;
-	
+
 	// perform conversion
 	var re = new RegExp();
 	for(var c=0; c<arrConversionSet.length; c++){
@@ -49,10 +49,10 @@ btnConvert.onclick=function(){
 		var strCommentText = "' ";
 	}
 
-	strRet += '\r\n\r\n' + 
-		strCommentText + '============================================================================\r\n' + 
+	strRet += '\r\n\r\n' +
+		strCommentText + '============================================================================\r\n' +
 		strCommentText + 'This code converted from ' + strConvertTypeText + ' by the ScriptConverter tool.\r\n' +
-		strCommentText + 'Use freely.  Please do not redistribute without permission.\r\n' + 
+		strCommentText + 'Use freely.  Please do not redistribute without permission.\r\n' +
 		strCommentText + 'Copyright 2003 Rob Eberhardt - scriptConverter'+'@'+'slingfive'+'.'+'com.\r\n' +
 		strCommentText + '============================================================================\r\n';
 

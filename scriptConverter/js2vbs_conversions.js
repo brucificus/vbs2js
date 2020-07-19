@@ -19,7 +19,7 @@ arrJStoVBS[2] = new Array('(\r\n)?;', '\r\n');
 
 function getJStoVBSOptionsArr(){
 	var l_arrOptions = new Array();
-	
+
 	return l_arrOptions;
 }
 
