@@ -1,0 +1,19 @@
+{
+  "name": "vbs2js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brucificus/vbs2js.git"
+  },
+  "author": "Bruce Markham, Rob Eberhardt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brucificus/vbs2js/issues"
+  },
+  "homepage": "https://github.com/brucificus/vbs2js#readme"
+}
