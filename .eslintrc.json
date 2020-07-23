@@ -1,0 +1,65 @@
+{
+    "root": true,
+
+    "plugins": [
+        "eslint-comments",
+        "jest",
+        "jest-formatting",
+        "jquery",
+        "no-only-tests",
+        "optimize-regex",
+        "prefer-arrow",
+        "prefer-object-spread",
+        "prettier",
+        "promise",
+        "simple-import-sort",
+        "unicorn",
+        "you-dont-need-lodash-underscore",
+        "you-dont-need-momentjs"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:eslint-comments/recommended",
+        "plugin:jest/recommended",
+        "plugin:jest-formatting/recommended",
+        "plugin:jquery/deprecated",
+        "plugin:optimize-regex/recommended",
+        "plugin:promise/recommended",
+        "plugin:unicorn/recommended",
+        "plugin:you-dont-need-lodash-underscore/compatible",
+        "plugin:you-dont-need-momentjs/recommended"
+    ],
+    "rules": {
+        "no-console": "error",
+        "no-alert": "error",
+        "no-var": "error",
+        "no-use-before-define": "error",
+        "prefer-rest-params": "error",
+        "prefer-const": "error",
+        "prefer-spread": "error",
+        "no-only-tests/no-only-tests": "error",
+        "prefer-arrow/prefer-arrow-functions": "error",
+        "prefer-object-spread/prefer-object-spread": "error",
+        "simple-import-sort/sort": "error",
+        "prettier/prettier": "error"
+    },
+    "overrides": [
+        {
+            "files": "*.js",
+            "parser": "espree",
+            "env": { "node": true }
+        },
+        {
+            "files": "**/*.ts",
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "project": ["tsconfig.json", "tests/tsconfig.json"]
+            },
+            "plugins": ["@typescript-eslint"],
+            "extends": [
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@typescript-eslint/recommended-requiring-type-checking"
+            ]
+        }
+    ]
+}
