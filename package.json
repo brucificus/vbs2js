@@ -22,9 +22,12 @@
   },
   "homepage": "https://github.com/brucificus/vbs2js#readme",
   "devDependencies": {
+    "@commitlint/core": "^9.1.1",
     "@types/jest": "^26.0.7",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
+    "commitlint-config-gitmoji": "^1.0.1",
+    "cz-gitmoji": "0.0.7",
     "eslint": "^7.5.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-jest": "^23.18.0",
@@ -41,9 +44,20 @@
     "eslint-plugin-unicorn": "^21.0.0",
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.10.0",
     "eslint-plugin-you-dont-need-momentjs": "^1.6.0",
+    "husky": "^4.2.5",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
     "ts-jest": "^26.1.3",
     "typescript": "^3.9.7"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-gitmoji"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
