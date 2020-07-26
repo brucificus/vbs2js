@@ -1,32 +1,36 @@
-import * as arrVBStoJS from './vbs2js_conversions';
+import {
+    conversionSteps,
+    ConversionReplacementFunction,
+} from "./vbs2js_conversions";
 
-function fnConvert(p_arrConversionSet: Array<Array<unknown>>, p_strScriptToConvert: string){
-	var strRet = p_strScriptToConvert;
-	var arrConversionSet = p_arrConversionSet;
+function convert(input: string): string {
+    let result = input;
 
-	// perform conversion
-	for(var c=0; c<arrConversionSet.length; c++){
-		if(arrConversionSet[c]){
-			var pattern = arrConversionSet[c][0] as string;
-			var replaceText = arrConversionSet[c][1];
-			if(pattern){
-				const re = new RegExp(pattern, "igm");
-				if(typeof(replaceText)=='function'){	// if function pointer passed, loop & use function to manually replace each match
-					if(re.test(strRet)){
-						var arrMatches = strRet.match(re)!;
-						for(var m=0; m<arrMatches.length; m++){
-							strRet = strRet.replace(arrMatches[m], replaceText(arrMatches[m]));
-						}
-					}
-				}else{
-					strRet = strRet.replace(re, replaceText as string);
-				}
-			}
-		}
-	}
-	return strRet;
+    conversionSteps.forEach((conversionStep) => {
+        let pattern = conversionStep.matcher;
+        let replacement = conversionStep.replacement;
+        if (pattern) {
+            const patternRegEx = new RegExp(pattern, "igm");
+            if (typeof replacement === "function") {
+                // if function pointer passed, loop & use function to manually replace each match
+                if (patternRegEx.test(result)) {
+                    var matches = result.match(patternRegEx)!;
+                    matches.forEach((match) => {
+                        result = result.replace(
+                            match,
+                            (replacement as ConversionReplacementFunction)(
+                                match
+                            )
+                        );
+                    });
+                }
+            } else {
+                result = result.replace(patternRegEx, replacement as string);
+            }
+        }
+    });
+
+    return result;
 }
 
-export = function(input: string): string {
-    return fnConvert(arrVBStoJS, input);
-}
+export { convert };

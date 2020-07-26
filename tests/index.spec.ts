@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import convert from '../src';
+import { convert } from '../src';
 import recursivelyProcessInputOutputFilePairs from './support/recursively-process-input-output-file-pairs';
 
 describe('library', () => {
