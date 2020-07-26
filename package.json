@@ -9,7 +9,11 @@
   "scripts": {
     "lint": "eslint .",
     "build": "tsc && npm run lint",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build && npm run test",
+    "postversion": "git push && git push --tags",
+    "semantic-release": "semantic-release --debug",
+    "semantic-release-dry-run": "semantic-release --dry-run --debug"
   },
   "repository": {
     "type": "git",
@@ -23,6 +27,8 @@
   "homepage": "https://github.com/brucificus/vbs2js#readme",
   "devDependencies": {
     "@commitlint/core": "^9.1.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.0.7",
     "@types/jest": "^26.0.7",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
@@ -47,6 +53,8 @@
     "husky": "^4.2.5",
     "jest": "^26.1.0",
     "prettier": "^2.0.5",
+    "semantic-release": "^17.1.1",
+    "semantic-release-gitmoji": "^1.3.4",
     "ts-jest": "^26.1.3",
     "typescript": "^3.9.7"
   },
