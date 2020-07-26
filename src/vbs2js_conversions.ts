@@ -1,3 +1,5 @@
+import { EOL } from 'os';
+
 //<script>
 
 // create 1 array per conversion type, filled with arrays of pattern/replacetext pairs
@@ -9,10 +11,10 @@
 /* good pattern parts
 
 capture optional 2nd param & preceding comma -->	, blah
-(,?\\s*[^,\\)\r\n]*)
+(,?\\s*[^,\\)' + EOL + ']*)
 
 whatever after last pattern and before close of parens or end of line -->	blah..)
-[^\\)\r\n]*[\\)\r\n]?
+[^\\)' + EOL + ']*[\\)' + EOL + ']?
 
 
 TODO:
@@ -38,18 +40,18 @@ arrVBStoJS.push(new ConversionStep('(^[^"]*?)\'', '$1//'));	//TODO: smarter chec
 	//arrVBStoJS.push(new ConversionStep('()', '/*$1*/'));
 
 // line continuation _
-arrVBStoJS.push(new ConversionStep('_\\s*[\r\n]\\s*', ' '));
+arrVBStoJS.push(new ConversionStep('_\\s*[' + EOL + ']\\s*', ' '));
 
 
 //-- proprietary
 // confirm
-arrVBStoJS.push(new ConversionStep('msgbox\\s*[\(]?\\s*([^\)\r\n]*),\\s*(?:vbYesNo|vbOKCancel)[^\)\r\n]*[\)\r\n]?', 'confirm($1)'));
+arrVBStoJS.push(new ConversionStep('msgbox\\s*[\(]?\\s*([^\)' + EOL + ']*),\\s*(?:vbYesNo|vbOKCancel)[^\)' + EOL + ']*[\)' + EOL + ']?', 'confirm($1)'));
 arrVBStoJS.push(new ConversionStep('confirm\\(([^\)]*)\\)([ \t]*=[ \t]*)(vbOK|vbYes)', 'confirm($1)'));	// strip extra msgbox params
 // msgbox
-arrVBStoJS.push(new ConversionStep('msgbox\\s*\\(([^\)\r\n]*)\\)', 'alert($1)'));	// with parens
-arrVBStoJS.push(new ConversionStep('msgbox\\s*([^\)\r\n]*)', 'alert($1)'));	// w/no parens
+arrVBStoJS.push(new ConversionStep('msgbox\\s*\\(([^\)' + EOL + ']*)\\)', 'alert($1)'));	// with parens
+arrVBStoJS.push(new ConversionStep('msgbox\\s*([^\)' + EOL + ']*)', 'alert($1)'));	// w/no parens
 // inputbox
-arrVBStoJS.push(new ConversionStep('inputbox\\s*[\(]?\\s*([^,\)\r\n]*)(,?\\s*[^,\)\r\n]*)(,?\\s*[^,\)\r\n]*)[^\)\r\n]*[\)\r\n]?', 'prompt($1$3)'));
+arrVBStoJS.push(new ConversionStep('inputbox\\s*[\(]?\\s*([^,\)' + EOL + ']*)(,?\\s*[^,\)' + EOL + ']*)(,?\\s*[^,\)' + EOL + ']*)[^\)' + EOL + ']*[\)' + EOL + ']?', 'prompt($1$3)'));
 
 
 // declare var/const
@@ -61,9 +63,9 @@ arrVBStoJS.push(new ConversionStep('(?=\\s*)&(?!#|[a-z]+;)', '+'));
 
 //-- functions
 // function return (must be converted 1st, depends on vbs function syntax)
-arrVBStoJS.push(new ConversionStep('^FUNCTION[ \t]*([^\(]*)(?:.*\r\n)*?END FUNCTION', vb2js_functionreturn));	//<-- note: replacement is actually function pointer
+arrVBStoJS.push(new ConversionStep('^FUNCTION[ \t]*([^\(]*)(?:.*' + EOL + ')*?END FUNCTION', vb2js_functionreturn));	//<-- note: replacement is actually function pointer
 // declare function/sub
-arrVBStoJS.push(new ConversionStep('^([ \t/]*)(?:FUNCTION|SUB)[ \t]+(.+)\r\n', '$1function $2{\r\n'));	//TODO: correct paren-less procs
+arrVBStoJS.push(new ConversionStep('^([ \t/]*)(?:FUNCTION|SUB)[ \t]+(.+)' + EOL + '', '$1function $2{' + EOL));	//TODO: correct paren-less procs
 // sub/function object_OnEvent (must run after declare function/sub above)
 arrVBStoJS.push(new ConversionStep('^([ \t/]*)(?:function)[ \t]+([a-z][a-z0-9]*\)_(on[a-z0-9]+)', '$1$2.$3 = function'));
 // end function/sub/if/select
@@ -103,18 +105,18 @@ arrVBStoJS.push(new ConversionStep('(\\b)ENDIF|END IF(\\b)', "$1}$2"));
 
 //-- SELECT CASE statement
 // case
-//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^\r\n\:]+)(?:[\:\r\n]*)','$1case $2:\r\n'));
-//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^\r\n\:]+)(?:[\:\r\n]*)(?!CASE|END SELECT)','$1case $2: {\r\n$2\r\n$1}\r\n'));
-// arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^\r\n\:]+)(?:[\:\r\n]*)([.\r\n]*?)([ \t]*CASE|[ \t]*END SELECT)','$1case $2: {\r\n$3\r\n$1}\r\n$4'));
-// arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^\r\n\:]+)(?:[\:\r\n]*)([.\n]*)(?=[ \t]*CASE)','$1case $2: {\r\n$3\r\n$1}\r\n'));
-//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^\r\n\:]+)([\:\r\n]*)(.*)(?=([ \t]*CASE|[ \t]*END SELECT))','$1case $2: {\r\n$4$1$1break\r\n$1}\r\n'));
-//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^\r\n\:]+)([\:\r\n]*)(.*)','$1case $2: {\r\n$4$1$1break\r\n$1}'));
-//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^\r\n\:]+)([\:\r\n]*)(.*)','$1case $2: {\r\n$4$1$1break\r\n$1}'));
-//arrVBStoJS.push(new ConversionStep('^([ \t]*)(CASE)(.*?)(\:|\r\n)([.\r\n \ta-z0-9\(\)\"\']*?)^([ \t]*CASE|[ \t]*END SELECT)','$1case$3 {\r\n$5$1}\r\n$6'));
-arrVBStoJS.push(new ConversionStep('^([ \t]*)(CASE)(.*?)(\:|\r\n)([.\r\n \ta-z0-9\(\)\"\']*?)^(?=[ \t]*CASE|[ \t]*END SELECT)','$1case$3: {\r\n$5$1$1break\r\n$1}\r\n'));
+//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^' + EOL + '\:]+)(?:[\:' + EOL + ']*)','$1case $2:' + EOL));
+//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^' + EOL + '\:]+)(?:[\:' + EOL + ']*)(?!CASE|END SELECT)','$1case $2: {' + EOL + '$2' + EOL + '$1}' + EOL));
+// arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^' + EOL + '\:]+)(?:[\:' + EOL + ']*)([.' + EOL + ']*?)([ \t]*CASE|[ \t]*END SELECT)','$1case $2: {' + EOL + '$3' + EOL + '$1}' + EOL + '$4'));
+// arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^' + EOL + '\:]+)(?:[\:' + EOL + ']*)([.\n]*)(?=[ \t]*CASE)','$1case $2: {' + EOL + '$3' + EOL + '$1}' + EOL));
+//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^' + EOL + '\:]+)([\:' + EOL + ']*)(.*)(?=([ \t]*CASE|[ \t]*END SELECT))','$1case $2: {' + EOL + '$4$1$1break' + EOL + '$1}' + EOL));
+//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^' + EOL + '\:]+)([\:' + EOL + ']*)(.*)','$1case $2: {' + EOL + '$4$1$1break' + EOL + '$1}'));
+//arrVBStoJS.push(new ConversionStep('^([ \t]*)CASE[ \t]+([^' + EOL + '\:]+)([\:' + EOL + ']*)(.*)','$1case $2: {' + EOL + '$4$1$1break' + EOL + '$1}'));
+//arrVBStoJS.push(new ConversionStep('^([ \t]*)(CASE)(.*?)(\:|' + EOL + ')([.' + EOL + ' \ta-z0-9\(\)\"\']*?)^([ \t]*CASE|[ \t]*END SELECT)','$1case$3 {' + EOL + '$5$1}' + EOL + '$6'));
+arrVBStoJS.push(new ConversionStep('^([ \t]*)(CASE)(.*?)(\:|' + EOL + ')([.' + EOL + ' \ta-z0-9\(\)\"\']*?)^(?=[ \t]*CASE|[ \t]*END SELECT)','$1case$3: {' + EOL + '$5$1$1break' + EOL + '$1}' + EOL));
 
 // select case
-arrVBStoJS.push(new ConversionStep('^([ \t]*)SELECT CASE ([^\\r\\n]+)\r\n','$1switch($2){\r\n'));
+arrVBStoJS.push(new ConversionStep('^([ \t]*)SELECT CASE ([^\\r\\n]+)' + EOL + '','$1switch($2){' + EOL));
 // end select
 arrVBStoJS.push(new ConversionStep('^([ \t]*)END SELECT','$1}'));
 
@@ -153,30 +155,30 @@ arrVBStoJS.push(new ConversionStep('lCase\\(([^\)]*)\\)', '$1.toLowerCase()'));
 
 
 // Option Explicit
-arrVBStoJS.push(new ConversionStep('^Option\\s+Explicit.*[\r\n]', ''));
+arrVBStoJS.push(new ConversionStep('^Option\\s+Explicit.*[' + EOL + ']', ''));
 // On Error Resume Next
-arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+Resume\\s+Next.*[\r\n]', 'window.onerror=null\r\n'));
-	//arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+Resume\\s+Next.*[\r\n]', '// window.onerror=null\r\n'));
+arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+Resume\\s+Next.*[' + EOL + ']', 'window.onerror=null' + EOL));
+	//arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+Resume\\s+Next.*[' + EOL + ']', '// window.onerror=null' + EOL));
 // On Error Goto 0
-arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+.+.*[\r\n]', 'window.detachEvent("onerror")\r\n'));
-	//arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+.+.*[\r\n]', '// window.detachEvent("onerror")\r\n'));
+arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+.+.*[' + EOL + ']', 'window.detachEvent("onerror")' + EOL));
+	//arrVBStoJS.push(new ConversionStep('^On\\s+Error\\s+.+.*[' + EOL + ']', '// window.detachEvent("onerror")' + EOL));
 
 
 
 // terminate statement
-arrVBStoJS.push(new ConversionStep('^([ \t]*)(?!//|function|sub|end sub|end function|if|elseif|else|end if|select|case)(.*)([^\{\}])\r\n', '$1$2$3;\r\n'));
-	//arrVBStoJS.push(new ConversionStep('^([ \t]*)(?!\/\/|function|sub|end sub|end function|if|elseif|else|end if|select|case)([^\{\}]*)\r\n', '$1$2;\r\n'));
+arrVBStoJS.push(new ConversionStep('^([ \t]*)(?!//|function|sub|end sub|end function|if|elseif|else|end if|select|case)(.*)([^\{\}])' + EOL + '', '$1$2$3;' + EOL));
+	//arrVBStoJS.push(new ConversionStep('^([ \t]*)(?!\/\/|function|sub|end sub|end function|if|elseif|else|end if|select|case)([^\{\}]*)' + EOL + '', '$1$2;' + EOL));
 
 
 // cleanup extra semicolons
-arrVBStoJS.push(new ConversionStep('(^[ \t]*)\;\r\n', '\r\n'));	// blank lines
-//arrVBStoJS.push(new ConversionStep('(CASE)(\\s+[^\r\n]+);', '$1$2'));	// (switch) case statements
-	//arrVBStoJS.push(new ConversionStep('([\{\} \t]);\r\n', '$1\r\n'));
+arrVBStoJS.push(new ConversionStep('(^[ \t]*)\;' + EOL + '',  EOL));	// blank lines
+//arrVBStoJS.push(new ConversionStep('(CASE)(\\s+[^' + EOL + ']+);', '$1$2'));	// (switch) case statements
+	//arrVBStoJS.push(new ConversionStep('([\{\} \t]);' + EOL + '', '$1' + EOL));
 
 
 // line combination :		// <-- needs more
 //arrVBStoJS.push(new ConversionStep('(?=.+):', ';'));
-//arrVBStoJS.push(new ConversionStep('^([ \t]*)(?!case)([ \t]+[^\r\n]+)\r\n', '$1$2;\r\n'));
+//arrVBStoJS.push(new ConversionStep('^([ \t]*)(?!case)([ \t]+[^' + EOL + ']+)' + EOL + '', '$1$2;' + EOL));
 
 //arrVBStoJS.push(new ConversionStep('', ''));
 
@@ -233,7 +235,7 @@ arrVBStoJS.push(new ConversionStep('vbArray', '8192'));
 
 // convert 'functionname=returnval' to 'return returnval'
 function vb2js_functionreturn(p_strFunction: string): string {
-	var re = new RegExp('^FUNCTION[ \t]*([^\(]*)(?:.*\r\n)*?END FUNCTION', 'igm');
+	var re = new RegExp('^FUNCTION[ \t]*([^\(]*)(?:.*' + EOL + ')*?END FUNCTION', 'igm');
 	re.exec(p_strFunction);
 	var strFunctionName = RegExp.$1;
 
