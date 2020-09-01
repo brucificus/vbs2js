@@ -30,7 +30,7 @@
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^7.0.7",
     "@types/jest": "^26.0.7",
-    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^3.7.0",
     "commitlint-config-gitmoji": "^1.0.1",
     "cz-gitmoji": "0.0.7",
