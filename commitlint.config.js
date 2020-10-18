@@ -2,9 +2,7 @@ module.exports = {
     extends: ['./node_modules/commitlint-config-gitmoji'],
     parserPreset: {
         parserOpts: {
-            /* eslint-disable unicorn/better-regex */
-            headerPattern: /^((:\w*:)|(([^\w\s\p{P}]{1,2})(?:[^\w\s\p{P}]{0,4})))(?:\((.*?)\))?\s((?:.*(?=\())|.*)(?:\(#(\d*)\))?/,
-            /* eslint-enable unicorn/better-regex */
+            headerPattern: /^((:\w*:)|(([^\s\w{}]{1,2})[^\s\w{}]{0,4}))(?:\((.*?)\))?\s((?:.*(?=\())|.*)(?:\(#(\d*)\))?/,
             headerCorrespondence: ['type', 'scope', 'subject', 'ticket'],
         },
     },
