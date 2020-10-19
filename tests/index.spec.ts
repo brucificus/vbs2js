@@ -17,7 +17,10 @@ const testFilePair = (
 ) => {
     const describeRecursive = (parts: string[], action: () => void) => {
         if (parts.length > 0) {
+            /* eslint-disable jest/valid-title */
             describe(parts[0], () => {
+                /* eslint-enable jest/valid-title */
+
                 describeRecursive(parts.splice(1), action);
             });
         } else {
@@ -28,7 +31,10 @@ const testFilePair = (
     describeRecursive(relativeLocationParts, () => {
         const inputFileBasename = path.basename(inputFile);
 
+        /* eslint-disable jest/valid-title */
         it(inputFileBasename, () => {
+            /* eslint-enable jest/valid-title */
+
             const inputFileContent = fs.readFileSync(inputFile, {
                 encoding: 'utf8',
             });
