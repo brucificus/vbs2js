@@ -1,0 +1,94 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase-if-necessary
+  ignore:
+  - dependency-name: eslint-plugin-jest
+    versions:
+    - 24.1.10
+    - 24.1.5
+    - 24.1.6
+    - 24.1.7
+    - 24.1.8
+    - 24.1.9
+    - 24.2.0
+    - 24.2.1
+    - 24.3.0
+    - 24.3.1
+    - 24.3.2
+    - 24.3.3
+    - 24.3.4
+    - 24.3.5
+  - dependency-name: eslint
+    versions:
+    - 7.22.0
+    - 7.23.0
+    - 7.24.0
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    versions:
+    - 4.14.1
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.0
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+    - 4.21.0
+  - dependency-name: "@typescript-eslint/parser"
+    versions:
+    - 4.14.1
+    - 4.15.0
+    - 4.15.1
+    - 4.15.2
+    - 4.16.0
+    - 4.17.0
+    - 4.18.0
+    - 4.19.0
+    - 4.20.0
+    - 4.21.0
+  - dependency-name: ts-jest
+    versions:
+    - 26.5.1
+    - 26.5.3
+    - 26.5.4
+  - dependency-name: typescript
+    versions:
+    - 4.1.4
+    - 4.1.5
+    - 4.2.3
+  - dependency-name: semantic-release
+    versions:
+    - 17.3.8
+    - 17.3.9
+    - 17.4.1
+  - dependency-name: commitlint-config-gitmoji
+    versions:
+    - 2.2.2
+  - dependency-name: eslint-plugin-unicorn
+    versions:
+    - 27.0.0
+    - 28.0.0
+    - 28.0.1
+    - 28.0.2
+  - dependency-name: husky
+    versions:
+    - 5.0.9
+    - 5.1.0
+    - 5.1.1
+    - 5.1.2
+  - dependency-name: eslint-plugin-promise
+    versions:
+    - 4.3.0
+  commit-message:
+    prefix: "⬆"
