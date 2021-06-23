@@ -50,9 +50,11 @@ arrVBStoJS.push(new ConversionStep('confirm\\(([^\)]*)\\)([ \t]*=[ \t]*)(vbOK|vb
 // msgbox
 arrVBStoJS.push(new ConversionStep('msgbox\\s*\\(([^\)' + EOL + ']*)\\)', 'alert($1)'));	// with parens
 arrVBStoJS.push(new ConversionStep('msgbox\\s*([^\)' + EOL + ']*)', 'alert($1)'));	// w/no parens
+// Wscript.Echo
+arrVBStoJS.push(new ConversionStep('wscript.echo\\s*\\(([^\)' + EOL + ']*)\\)', 'console.log($1)'));	// with parens
+arrVBStoJS.push(new ConversionStep('wscript.echo\\s*([^\)' + EOL + ']*)', 'console.log($1)'));	// w/no parens
 // inputbox
 arrVBStoJS.push(new ConversionStep('inputbox\\s*[\(]?\\s*([^,\)' + EOL + ']*)(,?\\s*[^,\)' + EOL + ']*)(,?\\s*[^,\)' + EOL + ']*)[^\)' + EOL + ']*[\)' + EOL + ']?', 'prompt($1$3)'));
-
 
 // declare var/const
 arrVBStoJS.push(new ConversionStep('DIM |CONST ', 'var '));
