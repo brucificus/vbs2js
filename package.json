@@ -1,6 +1,6 @@
 {
   "name": "vbs2js",
-  "version": "1.0.0-alpha.75",
+  "version": "1.0.0-alpha.76",
   "description": "This library (mostly) converts Classic ASP VBScript to JScript.",
   "main": "lib/index.js",
   "files": [
