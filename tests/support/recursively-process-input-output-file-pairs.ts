@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import path from 'path';
+import * as fs from 'node:fs';
+import path from 'node:path';
 
 class Scanner {
     constructor(
@@ -19,7 +19,7 @@ class Scanner {
         const folderBasename = path.basename(folder);
         parentFolders = [...parentFolders, folderBasename];
 
-        fs.readdirSync(folder).forEach((folderChildBasename) => {
+        for (const folderChildBasename of fs.readdirSync(folder)) {
             const folderChild = path.join(folder, folderChildBasename);
             const folderChildInfo = fs.statSync(folderChild);
             const folderChildIsInputFile =
@@ -41,7 +41,7 @@ class Scanner {
             } else if (folderChildInfo.isDirectory()) {
                 this.scan(folderChild, parentFolders, action);
             }
-        });
+        }
     }
 }
 

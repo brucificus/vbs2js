@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import path from 'path';
+import * as fs from 'node:fs';
+import path from 'node:path';
 
 import { convert } from '../src';
 import recursivelyProcessInputOutputFilePairs from './support/recursively-process-input-output-file-pairs';
@@ -51,6 +51,7 @@ const testFilePair = (
 };
 
 recursivelyProcessInputOutputFilePairs(
+    // eslint-disable-next-line unicorn/prefer-module
     __dirname + '/resources',
     'vbs',
     'js',

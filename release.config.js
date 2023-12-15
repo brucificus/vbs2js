@@ -1,7 +1,9 @@
-const { promisify } = require('util');
-const joinPath = require('path').join;
+/* eslint-disable unicorn/prefer-module */
+
+const { promisify } = require('node:util');
+const joinPath = require('node:path').join;
 const dateFormat = require('dateformat');
-const readFileAsync = promisify(require('fs').readFile);
+const readFileAsync = promisify(require('node:fs').readFile);
 
 const TEMPLATE_DIR =
     'node_modules/semantic-release-gitmoji/lib/assets/templates/';
@@ -87,3 +89,5 @@ module.exports = {
         ],
     ],
 };
+
+/* eslint-enable unicorn/prefer-module */
