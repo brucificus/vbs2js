@@ -14,8 +14,7 @@
         "promise",
         "simple-import-sort",
         "unicorn",
-        "you-dont-need-lodash-underscore",
-        "you-dont-need-momentjs"
+        "you-dont-need-lodash-underscore"
     ],
     "extends": [
         "eslint:recommended",
@@ -26,8 +25,7 @@
         "plugin:optimize-regex/recommended",
         "plugin:promise/recommended",
         "plugin:unicorn/recommended",
-        "plugin:you-dont-need-lodash-underscore/compatible",
-        "plugin:you-dont-need-momentjs/recommended"
+        "plugin:you-dont-need-lodash-underscore/compatible"
     ],
     "rules": {
         "no-console": "error",
@@ -40,7 +38,7 @@
         "no-only-tests/no-only-tests": "error",
         "prefer-arrow/prefer-arrow-functions": "error",
         "prefer-object-spread/prefer-object-spread": "error",
-        "simple-import-sort/sort": "error",
+        "simple-import-sort/imports": "error",
         "prettier/prettier": "error"
     },
     "overrides": [
