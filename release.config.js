@@ -82,7 +82,7 @@ module.exports = {
                 assets: [
                     {
                         path: './dist/*.tgz',
-                        name: 'vb6-antlr4-${nextRelease.version}.tgz',
+                        name: 'vbs2js-${nextRelease.version}.tgz',
                     },
                 ],
             },
