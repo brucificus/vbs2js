@@ -1,4 +1,4 @@
-import { EOL } from 'os';
+const EOL = '\r\n';
 
 //<script>
 
