@@ -1,0 +1,3 @@
+*	text=auto
+tests/resources/*.js -text
+tests/resources/*.vbs -text
