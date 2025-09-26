@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/brucificus/vbs2js#readme",
   "devDependencies": {
-    "@commitlint/core": "^19.0.2",
+    "@commitlint/core": "^20.0.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.0",
     "@tsconfig/node16": "^16.1.1",
